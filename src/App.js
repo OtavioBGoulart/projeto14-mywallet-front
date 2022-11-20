@@ -1,4 +1,6 @@
-import GlobalStyle from "./assets/css/GlobalStyle"
+import GlobalStyle from "./assets/css/GlobalStyle";
+import SinginPage from "./pages/SinginPage/SinginPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 export default function App() {
