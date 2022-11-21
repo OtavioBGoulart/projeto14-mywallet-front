@@ -1,17 +1,23 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../contexts/authContext";
 
 
 export default function SinginPage() {
-    const { setToken } = useContext(AuthContext)
+    const { token, userName, setToken, setUserName } = useContext(AuthContext);
     const [form, setForm] = useState({ email: "", password: "" });
     const URL = "http://localhost:5000/sing-in"
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (token && userName) {
+          navigate("/transactions");
+        }
+      }, []);
 
     function handleForm(e) {
         const { name, value } = e.target;
@@ -32,6 +38,9 @@ export default function SinginPage() {
             const promise = await axios.post(URL, body);
             console.log(promise.data.token);
             setToken(promise.data.token);
+            setUserName(promise.data.userName);
+            localStorage.setItem("token", JSON.stringify(promise.data.token));
+            localStorage.setItem("userName", JSON.stringify(promise.data.userName));
             navigate("/transactions");
         } catch (error) {
             console.log(error);
