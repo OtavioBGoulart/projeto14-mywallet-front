@@ -48,6 +48,9 @@ const GlobalStyle = createGlobalStyle`
         background-color: #8C11BE;
         box-sizing: border-box;
     }
+    a {
+        text-decoration: none;
+    }
 `
 
 export default GlobalStyle;

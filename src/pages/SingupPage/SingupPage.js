@@ -1,14 +1,11 @@
-import { Link } from "react-router-dom"
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "axios"
 
+export default function SingupPage() {
 
-export default function SinginPage() {
-
-    const [form, setForm] = useState({ email: "", password: "" });
-
+    const [form, setForm] = useState({ name: "", email: "", password: "", confirmedPass: "" });
     const navigate = useNavigate();
 
     function handleForm(e) {
@@ -25,14 +22,15 @@ export default function SinginPage() {
 
         console.log(body);
 
-        const promise = axios.post("http://localhost:5000/sng-in", body)
+        const promise = axios.post("http://localhost:5000/sin-up", body)
 
         promise.then(() => {
-            navigate("/transactions")
+            navigate("/")
         })
 
-        promise.catch(() => alert("Senha e/ou email incorretos. Tente novamente!"))
+        promise.catch(() => alert("Erro ao fazer o cadastro"))
     }
+
 
 
     return (
@@ -40,9 +38,19 @@ export default function SinginPage() {
             <Logo>
                 <h1>MyWallet</h1>
             </Logo>
-            <FormLogin>
+            <FormRegistration>
                 <form onSubmit={sendRegistration}>
-                    <InputLoginSession>
+                    <InputRegistrationsSession>
+                        <input
+                            name="name"
+                            type="text"
+                            value={form.name}
+                            onChange={handleForm}
+                            placeholder="Nome"
+                            required>
+                        </input>
+                    </InputRegistrationsSession>
+                    <InputRegistrationsSession>
                         <input
                             name="email"
                             type="email"
@@ -51,8 +59,8 @@ export default function SinginPage() {
                             placeholder="E-mail"
                             required>
                         </input>
-                    </InputLoginSession>
-                    <InputLoginSession>
+                    </InputRegistrationsSession>
+                    <InputRegistrationsSession>
                         <input
                             name="password"
                             type="text"
@@ -61,21 +69,31 @@ export default function SinginPage() {
                             placeholder="Senha"
                             required>
                         </input>
-                    </InputLoginSession>
-                    <BotaoLogin>
-                        <button type="submit">Entrar</button>
-                    </BotaoLogin>
+                    </InputRegistrationsSession>
+                    <InputRegistrationsSession>
+                        <input
+                            name="confirmedPass"
+                            type="text"
+                            value={form.confirmedPass}
+                            onChange={handleForm}
+                            placeholder="Confirme a senha"
+                            required>
+                        </input>
+                    </InputRegistrationsSession>
+                    <BotaoCadastro>
+                        <button type="submit">Cadastrar</button>
+                    </BotaoCadastro>
                 </form>
-            </FormLogin>
-            <Singup>
-                <Link to={"/sing-up"}>
-                    <h1>Primeira vez? Cadastre-se!</h1>
+            </FormRegistration>
+            <Back>
+                <Link to={"/"}>
+                    <h1>Já tem uma conta? Entre agora!</h1>
                 </Link>
-            </Singup>
+            </Back>
+
         </>
     )
 }
-
 
 const Logo = styled.div`
     margin: 100px auto 100px; 
@@ -91,14 +109,14 @@ const Logo = styled.div`
     color: #FFFFFF;
     }
 `
-const FormLogin = styled.div`
+
+const FormRegistration = styled.div`
 width: 80vw;
 margin: 40px auto 0 auto;
 display: flex;
 flex-direction: column;
 `
-
-const InputLoginSession = styled.div`
+const InputRegistrationsSession = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -121,7 +139,7 @@ const InputLoginSession = styled.div`
         }
     }
 `
-const BotaoLogin = styled.div`
+const BotaoCadastro = styled.div`
     display: flex;
     justify-content: center;
         button {
@@ -140,7 +158,7 @@ const BotaoLogin = styled.div`
             color: #FFFFFF;
         }
 `
-const Singup = styled.div`
+const Back = styled.div`
     margin: auto;
     margin-top: 15px;
     width: fit-content;
@@ -156,3 +174,4 @@ const Singup = styled.div`
         }
     }
 `
+
