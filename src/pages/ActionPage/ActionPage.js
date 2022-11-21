@@ -10,6 +10,7 @@ export default function ActionPage() {
     const [form, setForm] = useState({ type: act, value: "", description: "" });
     const URL = `http://localhost:5000/${act}`
     const actPt = act === "input" ? "Entrada" : "Saída"
+    // teste
 
     const navigate = useNavigate();
 
