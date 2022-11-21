@@ -1,11 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import AuthContext from "../../contexts/authContext";
-import logout from "../../assets/images/Logout.png";
+import logoutImage from "../../assets/images/Logout.png";
+import { useNavigate } from "react-router-dom";
 
 export default function TransactionsPage() {
 
-    const { token, userName } = useContext(AuthContext);
+    const { token, setToken, userName, setUserName} = useContext(AuthContext);
+    
+    
+    const navigate = useNavigate();
     console.log(token);
     console.log(userName);
     //const [transactions, setTransactions] = useState([]);
@@ -19,12 +23,22 @@ export default function TransactionsPage() {
 
     //     }
     // })
+
+    function logout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userName");
+        setToken("");
+        setUserName("");
+        navigate("/");
+    }
+
+
     return (
         <>
             <TopContainer>
-                <Name><h1>Olá, {userName}</h1></Name>
-                <LogoutImage>
-                    <img src={logout} alt="Logout" />
+                <Name><h1>Olá,    {userName}</h1></Name>
+                <LogoutImage onClick={logout}> 
+                    <img src={logoutImage} alt="Logout"  />
                 </LogoutImage>
             </TopContainer>
             {/* <TransactionsContainer>
