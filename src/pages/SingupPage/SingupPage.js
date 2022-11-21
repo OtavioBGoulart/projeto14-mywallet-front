@@ -4,7 +4,7 @@ import styled from "styled-components"
 import axios from "axios"
 
 export default function SingupPage() {
-
+    const URL = "http://localhost:5000/sing-up"
     const [form, setForm] = useState({ name: "", email: "", password: "", confirmedPass: "" });
     const navigate = useNavigate();
 
@@ -13,7 +13,7 @@ export default function SingupPage() {
         setForm({ ...form, [name]: value })
     }
 
-    function sendRegistration(e) {
+    async function sendRegistration(e) {
         e.preventDefault();
 
         const body = {
@@ -22,13 +22,13 @@ export default function SingupPage() {
 
         console.log(body);
 
-        const promise = axios.post("http://localhost:5000/sin-up", body)
+        try {
+            await axios.post(URL, body);
+            navigate("/");
+        } catch (error) {
+            alert(error.response.data.message);
+        }
 
-        promise.then(() => {
-            navigate("/")
-        })
-
-        promise.catch(() => alert("Erro ao fazer o cadastro"))
     }
 
 
@@ -63,7 +63,7 @@ export default function SingupPage() {
                     <InputRegistrationsSession>
                         <input
                             name="password"
-                            type="text"
+                            type="password"
                             value={form.password}
                             onChange={handleForm}
                             placeholder="Senha"
@@ -73,7 +73,7 @@ export default function SingupPage() {
                     <InputRegistrationsSession>
                         <input
                             name="confirmedPass"
-                            type="text"
+                            type="password"
                             value={form.confirmedPass}
                             onChange={handleForm}
                             placeholder="Confirme a senha"

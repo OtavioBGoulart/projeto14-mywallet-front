@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import AuthContext from "../../contexts/authContext";
 
 
 export default function SinginPage() {
-
+    const { setToken } = useContext(AuthContext)
     const [form, setForm] = useState({ email: "", password: "" });
+    const URL = "http://localhost:5000/sing-in"
 
     const navigate = useNavigate();
 
@@ -16,7 +18,7 @@ export default function SinginPage() {
         setForm({ ...form, [name]: value })
     }
 
-    function sendRegistration(e) {
+    async function sendRegistration(e) {
         e.preventDefault();
 
         const body = {
@@ -25,16 +27,18 @@ export default function SinginPage() {
 
         console.log(body);
 
-        const promise = axios.post("http://localhost:5000/sng-in", body)
 
-        promise.then(() => {
-            navigate("/transactions")
-        })
+        try {
+            const promise = await axios.post(URL, body);
+            console.log(promise.data.token);
+            setToken(promise.data.token);
+            navigate("/transactions");
+        } catch (error) {
+            console.log(error);
+            alert("email e/ou senha incorretos")
+        }
 
-        promise.catch(() => alert("Senha e/ou email incorretos. Tente novamente!"))
     }
-
-
     return (
         <>
             <Logo>
@@ -55,7 +59,7 @@ export default function SinginPage() {
                     <InputLoginSession>
                         <input
                             name="password"
-                            type="text"
+                            type="password"
                             value={form.password}
                             onChange={handleForm}
                             placeholder="Senha"
@@ -75,6 +79,7 @@ export default function SinginPage() {
         </>
     )
 }
+
 
 
 const Logo = styled.div`
