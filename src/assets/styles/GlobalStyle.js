@@ -45,8 +45,11 @@ const GlobalStyle = createGlobalStyle`
         border-spacing: 0;
     }
     * {
-        background-color: #8C11BE;
+        
         box-sizing: border-box;
+    }
+    body {
+        background-color: #8C11BE;
     }
     a {
         text-decoration: none;

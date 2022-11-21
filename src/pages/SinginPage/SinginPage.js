@@ -17,7 +17,7 @@ export default function SinginPage() {
         if (token && userName) {
           navigate("/transactions");
         }
-      }, []);
+      });
 
     function handleForm(e) {
         const { name, value } = e.target;
