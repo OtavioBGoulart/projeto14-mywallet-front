@@ -1,22 +1,25 @@
 import styled from "styled-components"
 
 
-export default function ListTransactions ({ transaction }) {
+export default function ListTransactions({ transaction }) {
 
-    console.log(transaction.type)
+    const transactionValue = Number(transaction.value).toFixed(2);
+
     return (
         <TransactionInfos>
-            <Day>{transaction.time}</Day>
-            <Description>{transaction.description}</Description>
+            <ContainerEsq>
+                <Day>{transaction.time}</Day>
+                <Description>{transaction.description}</Description>
+            </ContainerEsq>
             <Value>
-            {transaction.type === "input" ? (
-                <GreenValue>{transaction.value}</GreenValue>
-            ) : (
-                <RedValue>{transaction.value}</RedValue>
-            )}
+                {transaction.type === "input" ? (
+                    <GreenValue><p>{transactionValue}</p></GreenValue>
+                ) : (
+                    <RedValue><p>{transactionValue}</p></RedValue>
+                )}
             </Value>
         </TransactionInfos>
-        
+
     )
 }
 
@@ -26,6 +29,12 @@ const TransactionInfos = styled.div`
     /* background-color: #FFFFFF; */
     margin-bottom: 15px;
     width: 90%;
+    position: relative;
+`
+
+const ContainerEsq = styled.div`
+    display: flex;
+    flex-direction: row;
 `
 const Day = styled.div`
     font-family: 'Raleway';
@@ -34,6 +43,7 @@ const Day = styled.div`
     font-size: 16px;
     line-height: 19px;
     color: #C6C6C6;
+    margin-right: 10px;
 `
 
 const Description = styled.div`
@@ -49,21 +59,26 @@ const Value = styled.div`
     
 `
 
-const GreenValue = styled.h1`
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: right;
+const GreenValue = styled.div`
+    p {
     color: #03AC00;
-`
-const RedValue = styled.h1`
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
     text-align: right;
+    }
+`
+const RedValue = styled.div`
+    p {
     color: #C70000;
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: right;
+    }
+    
 `

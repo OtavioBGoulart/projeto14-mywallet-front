@@ -30,8 +30,9 @@ export default function TransactionsPage() {
             console.log(res.data.transactions);
             const list = res.data.transactions
             
-            if (list !== []) {
+            if (list.length !== 0) {
                 setTransactions(list)
+                console.log(list)
             }
         })
         
@@ -103,6 +104,7 @@ const TransactionsContainer = styled.div`
     background: #FFFFFF;
     border-radius: 5px;
     h1 {
+    margin-top: 45%;
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 400;
