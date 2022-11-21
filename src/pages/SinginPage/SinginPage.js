@@ -75,9 +75,9 @@ export default function SinginPage() {
                             required>
                         </input>
                     </InputLoginSession>
-                    <BotaoLogin>
+                    <LoginButton>
                         <button type="submit">Entrar</button>
-                    </BotaoLogin>
+                    </LoginButton>
                 </form>
             </FormLogin>
             <Singup>
@@ -135,7 +135,7 @@ const InputLoginSession = styled.div`
         }
     }
 `
-const BotaoLogin = styled.div`
+const LoginButton = styled.div`
     display: flex;
     justify-content: center;
         button {

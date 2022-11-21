@@ -80,9 +80,9 @@ export default function SingupPage() {
                             required>
                         </input>
                     </InputRegistrationsSession>
-                    <BotaoCadastro>
+                    <RegistrationButton>
                         <button type="submit">Cadastrar</button>
-                    </BotaoCadastro>
+                    </RegistrationButton>
                 </form>
             </FormRegistration>
             <Back>
@@ -139,7 +139,7 @@ const InputRegistrationsSession = styled.div`
         }
     }
 `
-const BotaoCadastro = styled.div`
+const RegistrationButton = styled.div`
     display: flex;
     justify-content: center;
         button {
