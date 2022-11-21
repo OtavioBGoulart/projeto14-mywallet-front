@@ -9,33 +9,36 @@ import ListTransactions from "../../components/ListTransactions";
 export default function TransactionsPage() {
 
     const { token, setToken, userName, setUserName } = useContext(AuthContext);
-
+    const [transactions, setTransactions] = useState(false);
+    const [balance, setBalance] = useState("")
 
     const navigate = useNavigate();
     console.log(token);
     console.log(userName);
-    const [transactions, setTransactions] = useState(false);
 
-    useEffect( () => {
+
+    useEffect(() => {
         const URL = "http://localhost:5000/history";
         const config = {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
         }
-        
+
         const promise = axios.get(URL, config);
 
         promise.then((res) => {
             console.log(res.data.transactions);
             const list = res.data.transactions
-            
+            const userBalance = res.data.balance
+
             if (list.length !== 0) {
-                setTransactions(list)
-                console.log(list)
+                setTransactions(list);
+                setBalance(userBalance);
+                console.log(list);
             }
         })
-        
+
     }, [token])
 
     function logout() {
@@ -46,6 +49,11 @@ export default function TransactionsPage() {
         navigate("/");
     }
 
+    console.log(balance)
+
+    // if (list === undefined) {
+    //     return <div>Carregando</div>
+    // }
 
     return (
         <>
@@ -55,12 +63,18 @@ export default function TransactionsPage() {
                     <img src={logoutImage} alt="Logout" />
                 </LogoutImage>
             </TopContainer>
-            <TransactionsContainer>
-                {transactions ? (
-                    transactions.map((t) => <ListTransactions key={t._id} transaction={t}/>)
-                ) : (<h1>Não há registros de entrada ou saída</h1>)}
-                
-            </TransactionsContainer>
+            <HistoryContainer>
+                <TransactionsContainer>
+                    {transactions ? (
+                        transactions.map((t) => <ListTransactions key={t._id} transaction={t} />)
+                    ) : (<h1>Não há registros de entrada ou saída</h1>)}
+                </TransactionsContainer>
+                <BalanceDiv>
+                    <Balance>Saldo</Balance>
+                    <BalanceValue>{balance}</BalanceValue>
+                </BalanceDiv>
+            </HistoryContainer>
+
 
         </>
     )
@@ -93,7 +107,7 @@ const LogoutImage = styled.div`
         height: 100%;
     }
 `
-const TransactionsContainer = styled.div`
+const HistoryContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -103,6 +117,8 @@ const TransactionsContainer = styled.div`
     padding-top: 15px;
     background: #FFFFFF;
     border-radius: 5px;
+    position: relative;
+    
     h1 {
     margin-top: 45%;
     font-family: 'Raleway';
@@ -114,12 +130,37 @@ const TransactionsContainer = styled.div`
     color: #868686;
     }
 `
-// const Empty = styled.h1`
-//     font-family: 'Raleway';
-//     font-style: normal;
-//     font-weight: 400;
-//     font-size: 20px;
-//     line-height: 23px;
-//     text-align: center;
-//     color: #868686;
-//`
+const TransactionsContainer = styled.div`
+    height: 380px;
+    width: 90%;
+    overflow-y: scroll;
+`
+const BalanceDiv = styled.div`
+    width: 90%;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0px auto;
+    margin-top: 10px;
+    position: absolute;
+    bottom: 5px;
+    z-index: 3;
+`
+const Balance = styled.h2`
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 20px;
+    color: #000000;
+`
+const BalanceValue = styled.div`
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 20px;
+    text-align: right;
+    color: #03AC00;
+`

@@ -8,7 +8,7 @@ export default function ListTransactions({ transaction }) {
     return (
         <TransactionInfos>
             <ContainerEsq>
-                <Day>{transaction.time}</Day>
+                <Day>{transaction.day}</Day>
                 <Description>{transaction.description}</Description>
             </ContainerEsq>
             <Value>
@@ -28,7 +28,7 @@ const TransactionInfos = styled.div`
     justify-content: space-between;
     /* background-color: #FFFFFF; */
     margin-bottom: 15px;
-    width: 90%;
+    width: 100%;
     position: relative;
 `
 
